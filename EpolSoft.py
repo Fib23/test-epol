@@ -79,7 +79,7 @@ def mode_line(search_line = search_line):
 		Параметр search_line  в ручном режиме нужно заполнить самостоятельно.
 		Параметр search_line  в авто режиме принимает значение:
 					'010101010',
-		из-за ранее определённой константой search_line. 			
+		из ранее определённой search_line. 			
 	"""
 	print("\nСтрока в авто режиме заполнится значением '010101010'.")
 	print("Требование - строка, состоящая из 0 и/или 1, должна состоять из 9 символов.")
@@ -88,21 +88,18 @@ def mode_line(search_line = search_line):
 	# Взаимодействие с пользователем. 
 	# Ожидает 'Y/y' - для ручного режима. 
 	# Ожидает 'N/n'  - для авто режима. 
-	while 1:
-		mode = input()
-		if not mode:
-			print("Выберете режим заполнения строки ( 'Y/y' - ручной  или 'N/n - авто' ).")
-			continue
-		elif 'Y' == mode or 'y' == mode: 
-			print("\nЗаполните строку: ")	
-			search_line = input()
-			search_line = length_line(search_line = search_line)
-			return(search_line)
-		elif 'N' == mode or 'n' == mode:
-			print("Строка приняла значение по умолчанию '010101010'.")
-			return(search_line)
-		else:
-			print("Для ручного режима введите 'Y/y'. Для авто режима - 'N/n'. Требуется повторный ввод: ")
+	
+	mode = input()
+	if 'Y' == mode or 'y' == mode:
+		print("\nЗаполните строку: ")	
+		search_line = input()
+		search_line = length_line(search_line = search_line)
+		return(search_line)
+	elif not mode or 'N' == mode or 'n' == mode:
+		print("Строка приняла значение по умолчанию '010101010'.")
+		return(search_line)
+	else:
+		sys.exit("Выход из программы.")
 
 def mode_array(in_array = in_array):
 	"""
@@ -111,7 +108,7 @@ def mode_array(in_array = in_array):
 		'test,service2,dev,service4,test5,test6,test7,service8,prod'
 		Параметр in_array будет в авто режиме принимать значение:
 		['test','service2','dev','service4','test5','test6','test7','service8','prod'].
-		Из-за ранее определённой константой in_array. 			
+		Из ранее определённой in_array. 			
 	"""
 	print("\nВходной массив в авто режиме заполнится значениями:"\
 		+ "test,service2,dev,service4,test5,test6,test7,service8,prod.")
@@ -121,21 +118,17 @@ def mode_array(in_array = in_array):
 	# Взаимодействие с пользователем. 
 	# Ожидает 'Y/y'  - для ручного режима. 
 	# Ожидает 'N/n' - для авто режима. 
-	while 1:
-		mode = input()
-		if not mode:
-			print("Выберите режим заполнения входного массива ( 'Y/y' или 'N/n' ).")
-			continue
-		elif 'Y' == mode or 'y' == mode: 
-			print("\nЗаполните входной массив: ")	
-			in_array = input()
-			in_array = valid_array(in_array = in_array)
-			return(in_array)
-		elif 'N' == mode or 'n' == mode:
-			print("Массив принял значение по умолчанию:\ntest,service2,dev,service4,test5,test6,test7,service8,prod")
-			return(in_array)
-		else:
-			print("Для ручного режима введите 'Y/y'. Для авто режима - 'N/n'. Требуется повторный ввод: ")
+	mode = input()
+	if 'Y' == mode or 'y' == mode: 
+		print("\nЗаполните входной массив: ")	
+		in_array = input()
+		in_array = valid_array(in_array = in_array)
+		return(in_array)
+	elif not mode or 'N' == mode or 'n' == mode:
+		print("Массив принял значение по умолчанию:\ntest,service2,dev,service4,test5,test6,test7,service8,prod")
+		return(in_array)
+	else:
+		sys.exit("Выход из программы.")
 
 def finall_array(search_line = search_line, in_array = in_array):
 	"""
@@ -154,16 +147,16 @@ def main (search_line = search_line, in_array = in_array,out_array = out_array):
 	"""
 		Основная функция.
 		
-		Параметр search_line (строка) определён как константа.
+		Параметр search_line (строка) зарание определён.
 		Далее может быть изменен.
 
-		Параметр in_array (входной массив) определен как константа.
+		Параметр in_array (входной массив) зарание определён.
 		Далее может быть изменен.
 
 		Параметр out_array (выходной массив)
 	"""
 	try:
-		print("Программа написана на Python 3.7.3, Debian 10.1 'buster'.")
+		print("Программа написана на Python 3.7.3.")
 		print("Выход из программы Ctrl+'C'")
 		
 		search_line = mode_line(search_line = search_line)
