@@ -1,4 +1,5 @@
 import sys
+import re
 # Строка, на основании которой берётся индекс всех элементов "1".
 search_line = '010101010'
 # Входной массив, из которого будут выбраны все позиции элементов на основании индексов элементов "1" из строки search_line.
@@ -6,54 +7,31 @@ in_array = ['test','service2','dev','service4','test5','test6','test7','service8
 # Выходной массив.
 out_array = []
 
-def items_line(search_line = search_line):
+def valid_line(search_line = search_line):
 	"""
-		Проверка строки на наличие только символов '0' и/или '1'.
-		Параметр search_line - строка, состоящая только из 9 элементов,
-		которая проходит валидацию на наличие только '0' и/или '1'.
-		Наличие в строке других элементов, отличных '0' и/или '1',
-		приведёт к выходу программы с выводом неверных элементов.
-		Пример search_line:
-				для положительной валидации:
-										'010101010'
-				для отрицательной валидации:
-										'010901003'
-										'01090100A'								
-	"""
-	buffers = ''
-	for i in search_line:
-		if (i != "0" and i != '1'): 
-			buffers = buffers + f',{i}'
-	buffers = buffers[1:]
-	if len(buffers) == 1:
-		sys.exit(f"Вы ввели недопустимый элемент {buffers} в строку.")
-	elif len(buffers) > 1:
-		sys.exit(f"Вы ввели недопустимые элементы {buffers} в строку.")
-
-def length_line(search_line = search_line):
-	"""
-		Проверка длины строки. 
-		Параметр search_line - строка, которая должна состоять из 9 элементов. 
-		Если длина строки не равна 9 элементам, то это приведёт к выходу из программы
-		с выводом сообщения о неверном количестве элементов в строке.
+		Проверка строки. 
+		Параметр search_line - строка, которая должна состоять
+		из 9 элементов и только из символов '0' и/или '1'. 
+		Если длина строки не равна 9 элементам, то это приведёт к выходу из программы.
+		Наличие в строке других элементов, отличных '0' или '1',
+		приведёт к выходу программы.
 		Пример search_line:
 				для прохождения положительной валидации по длине строки:
 										'010101010'
-										'010901003'
-										'01090100A'
+										'111111111'
+										'000000000'
 				для отрицательной валидации по длине строки:
 										'010101'
 										'010109'
-										'01A'	
+										'01A'
+										'010101019'	
 																		
 	"""
-	if len(search_line) != 9:
-		print("Вы ввели неверное количество элементов в строку.")
-		items_line(search_line = search_line)
-		sys.exit()
+	search_line = re.match(r'[0-1]{9}$',search_line)
+	if search_line:
+		return(search_line.group(0))
 	else:
-		items_line(search_line = search_line)
-		return(search_line)
+		sys.exit("Вы ввели неверную строку.")
 
 def valid_array(in_array = in_array):
 	"""
@@ -93,13 +71,13 @@ def mode_line(search_line = search_line):
 	if 'Y' == mode or 'y' == mode:
 		print("\nЗаполните строку: ")	
 		search_line = input()
-		search_line = length_line(search_line = search_line)
+		search_line = valid_line(search_line = search_line)
 		return(search_line)
 	elif not mode or 'N' == mode or 'n' == mode:
 		print("Строка приняла значение по умолчанию '010101010'.")
 		return(search_line)
 	else:
-		sys.exit("Выход из программы.")
+		sys.exit("Не выбран режим. Выход из программы.")
 
 def mode_array(in_array = in_array):
 	"""
@@ -113,11 +91,11 @@ def mode_array(in_array = in_array):
 	print("\nВходной массив в авто режиме заполнится значениями:"\
 		+ "test,service2,dev,service4,test5,test6,test7,service8,prod.")
 	print("Требование - массив должен состоять из 9-и элементов, указанных через ','.")
-	print("Для ручного режима введите 'Y/y'. Для авто режима - 'N/n' или нажатие Enter: ")
+	print("Для ручного режима введите 'Y/y'. Для авто режима - 'N/n': ")
 
 	# Взаимодействие с пользователем. 
 	# Ожидает 'Y/y'  - для ручного режима. 
-	# Ожидает 'N/n' или нажатие Enter - для авто режима. 
+	# Ожидает 'N/n' - для авто режима. 
 	mode = input()
 	if 'Y' == mode or 'y' == mode: 
 		print("\nЗаполните входной массив: ")	
@@ -128,7 +106,7 @@ def mode_array(in_array = in_array):
 		print("Массив принял значение по умолчанию:\ntest,service2,dev,service4,test5,test6,test7,service8,prod")
 		return(in_array)
 	else:
-		sys.exit("Выход из программы.")
+		sys.exit("Не выбран режим. Выход из программы.")
 
 def finall_array(search_line = search_line, in_array = in_array):
 	"""
